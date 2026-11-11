@@ -100,3 +100,8 @@ This project is an educational laboratory focused on understanding industrial ne
 The following screenshot shows the detection of an unusually high number of Modbus requests within a 10 ms time window.
 
 ![Excessive Modbus traffic detection](screenshots/detection_trafic_modbus.png)
+### Detection Example — Unauthorized IP
+
+The following screenshot shows a controlled test in which the authorized IP address was temporarily changed to trigger an unauthorized IP alert.
+
+![Unauthorized IP detection](screenshots/detection_ip_non_autorisee.png)
