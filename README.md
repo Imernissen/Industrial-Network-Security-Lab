@@ -6,6 +6,67 @@ This project is an isolated laboratory designed to explore industrial network se
 
 The laboratory uses OpenPLC Runtime to simulate an industrial controller. Network traffic is captured and analyzed to identify potentially suspicious communication patterns.
 
+## Installation and Execution
+
+### Prerequisites
+
+The following tools are required:
+
+- Ubuntu 24.04 or compatible Linux environment.
+- Python 3 and pip.
+- Docker Desktop with WSL2 integration, or a compatible Docker Engine.
+- TShark for network traffic analysis.
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/Imernissen/Industrial-Network-Security-Lab.git
+cd Industrial-Network-Security-Lab
+```
+
+### 2. Set Up the Python Environment
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+### 3. Start the OpenPLC Runtime
+
+```bash
+docker compose -f plc-simulation/docker-compose.yml up -d
+```
+
+Check the container status:
+
+```bash
+docker ps
+```
+
+### 4. Run the Detection Scripts
+
+```bash
+python detection/detect_unauthorized_ip.py
+python detection/detect_unusual_modbus_functions.py
+python detection/detect_modbus_flood.py
+python traffic-analysis/analyze_modbus.py
+```
+
+The scripts analyze the Modbus traffic stored in the provided PCAP file.
+
+### 5. Run Automated Tests
+
+```bash
+pytest -v
+```
+
+### 6. Stop the OpenPLC Runtime
+
+```bash
+docker compose -f plc-simulation/docker-compose.yml down
+```
+
 ## Objectives
 
 - Simulate an industrial environment using OpenPLC Runtime.
@@ -29,7 +90,7 @@ The network architecture is documented in [`architecture/network_architecture.md
 
 ## Detection Mechanisms
 
-Three detection mechanisms have been implemented:
+Three detection mechanisms and one traffic analysis tool have been implemented:
 
 ### 1. Unauthorized IP Detection
 
@@ -48,11 +109,28 @@ Script: [`detect_unusual_modbus_functions.py`](detection/detect_unusual_modbus_f
 Uses a sliding time window to identify unusually frequent Modbus requests.
 
 Script: [`detect_modbus_flood.py`](detection/detect_modbus_flood.py)
-### Detection Example — Unauthorized Modbus Function
 
-The following screenshot shows a controlled test in which Modbus function FC5 was temporarily removed from the authorized function list.
+### 4. General Modbus Traffic Analysis
+
+Analyzes Modbus TCP traffic to summarize request counts, function codes, and source IP addresses, while applying basic detection rules.
+
+Script: [`analyze_modbus.py`](traffic-analysis/analyze_modbus.py)
+
+### Detection Examples
+
+The following screenshots illustrate controlled detection tests.
+
+**Unauthorized Modbus Function**
 
 ![Unauthorized Modbus function detection](screenshots/detection_fonction_modbus.png)
+
+**Excessive Modbus Traffic**
+
+![Excessive Modbus traffic detection](screenshots/detection_trafic_modbus.png)
+
+**Unauthorized IP**
+
+![Unauthorized IP detection](screenshots/detection_ip_non_autorisee.png)
 ## Automated Testing
 
 Automated tests are implemented with Pytest to validate the detection logic.
@@ -95,13 +173,3 @@ Future improvements could include:
 ## Project Scope
 
 This project is an educational laboratory focused on understanding industrial network communication and implementing basic security monitoring mechanisms.
-### Detection Example — Excessive Modbus Traffic
-
-The following screenshot shows the detection of an unusually high number of Modbus requests within a 10 ms time window.
-
-![Excessive Modbus traffic detection](screenshots/detection_trafic_modbus.png)
-### Detection Example — Unauthorized IP
-
-The following screenshot shows a controlled test in which the authorized IP address was temporarily changed to trigger an unauthorized IP alert.
-
-![Unauthorized IP detection](screenshots/detection_ip_non_autorisee.png)
