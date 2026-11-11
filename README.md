@@ -95,3 +95,8 @@ Future improvements could include:
 ## Project Scope
 
 This project is an educational laboratory focused on understanding industrial network communication and implementing basic security monitoring mechanisms.
+### Detection Example — Excessive Modbus Traffic
+
+The following screenshot shows the detection of an unusually high number of Modbus requests within a 10 ms time window.
+
+![Excessive Modbus traffic detection](screenshots/detection_trafic_modbus.png)
