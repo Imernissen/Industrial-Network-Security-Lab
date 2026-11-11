@@ -58,7 +58,9 @@ Automated tests are implemented with Pytest to validate the detection logic.
 - 0 tests failed.
 
 The tests cover normal traffic, suspicious activity, and boundary conditions.
+### Test Execution Results
 
+![Automated test results](screenshots/tests_validation.png)
 ## Reports and Documentation
 
 Technical reports are available in the [`reports/`](reports/) directory.
