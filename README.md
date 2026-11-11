@@ -48,6 +48,11 @@ Script: [`detect_unusual_modbus_functions.py`](detection/detect_unusual_modbus_f
 Uses a sliding time window to identify unusually frequent Modbus requests.
 
 Script: [`detect_modbus_flood.py`](detection/detect_modbus_flood.py)
+### Detection Example — Unauthorized Modbus Function
+
+The following screenshot shows a controlled test in which Modbus function FC5 was temporarily removed from the authorized function list.
+
+![Unauthorized Modbus function detection](screenshots/detection_fonction_modbus.png)
 ## Automated Testing
 
 Automated tests are implemented with Pytest to validate the detection logic.
