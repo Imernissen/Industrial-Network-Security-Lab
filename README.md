@@ -44,7 +44,31 @@ Check the container status:
 docker ps
 ```
 
-### 4. Run the Detection Scripts
+### 4. Generate and Capture Live Modbus Traffic
+
+Generate 10 Modbus TCP Read Coils requests using the Python client:
+
+```bash
+python traffic-analysis/generate_modbus_traffic.py
+```
+
+To capture live Modbus traffic, start TShark in a separate terminal:
+
+```bash
+tshark -i lo -f "tcp port 502" -w traffic-analysis/modbus_live_capture.pcap
+```
+
+While the capture is running, execute the traffic generation script in another terminal. Stop TShark with `Ctrl+C` after the requests have been sent.
+
+Analyze the captured traffic:
+
+```bash
+python traffic-analysis/analyze_modbus.py traffic-analysis/modbus_live_capture.pcap
+```
+
+The repository also includes a sample capture: `traffic-analysis/modbus_live_capture.pcap`.
+
+### 5. Run the Detection Scripts
 
 ```bash
 python detection/detect_unauthorized_ip.py
@@ -53,15 +77,15 @@ python detection/detect_modbus_flood.py
 python traffic-analysis/analyze_modbus.py
 ```
 
-The scripts analyze the Modbus traffic stored in the provided PCAP file.
+The detection scripts analyze the original sample PCAP file by default. The general traffic analysis script also supports specifying a different PCAP file as a command-line argument.
 
-### 5. Run Automated Tests
+### 6. Run Automated Tests
 
 ```bash
 pytest -v
 ```
 
-### 6. Stop the OpenPLC Runtime
+### 7. Stop the OpenPLC Runtime
 
 ```bash
 docker compose -f plc-simulation/docker-compose.yml down
