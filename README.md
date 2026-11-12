@@ -91,6 +91,31 @@ python detection/detect_modbus_flood.py traffic-analysis/modbus_live_capture.pca
 python traffic-analysis/analyze_modbus.py traffic-analysis/modbus_live_capture.pcap
 ```
 
+### Unauthorized Modbus Function Scenario (FC3)
+
+Run the detection script against the provided suspicious traffic capture:
+
+```bash
+python detection/detect_unusual_modbus_functions.py traffic-analysis/modbus_suspicious_capture.pcap
+```
+
+To reproduce the scenario, start a TShark capture in a separate terminal:
+
+```bash
+tshark -i lo -f "tcp port 502" -w traffic-analysis/modbus_suspicious_test.pcap
+```
+
+Then generate the FC3 request in another terminal:
+
+```bash
+python traffic-analysis/generate_suspicious_modbus_traffic.py
+```
+
+Stop TShark with `Ctrl+C` and analyze the new capture:
+
+```bash
+python detection/detect_unusual_modbus_functions.py traffic-analysis/modbus_suspicious_test.pcap
+```
 
 ### 6. Run Automated Tests
 
@@ -141,6 +166,13 @@ Checks Modbus function codes against a predefined list of authorized functions.
 
 Script: [`detect_unusual_modbus_functions.py`](detection/detect_unusual_modbus_functions.py)
 
+A controlled scenario demonstrates the detection of an unauthorized FC3 (Read Holding Registers) request.
+
+- Scenario generation: [generate_suspicious_modbus_traffic.py](traffic-analysis/generate_suspicious_modbus_traffic.py)
+- Network capture: [modbus_suspicious_capture.pcap](traffic-analysis/modbus_suspicious_capture.pcap)
+- Technical report: [unauthorized_modbus_function_scenario.md](reports/unauthorized_modbus_function_scenario.md)
+
+The test generates an FC3 request, captures the Modbus exchange, and verifies that the detection script identifies FC3 as unauthorized.
 ### 3. Excessive Modbus Traffic Detection
 
 Uses a sliding time window to identify unusually frequent Modbus requests.
@@ -188,9 +220,10 @@ Technical reports are available in the [`reports/`](reports/) directory.
 They document:
 - Unauthorized IP detection.
 - Unusual Modbus function detection.
+- Unauthorized Modbus function scenario (FC3).
 - Excessive Modbus traffic detection.
 - Automated test validation.
-
+- Live Modbus traffic analysis.
 ## Limitations and Future Improvements
 
 The current laboratory has several limitations:
