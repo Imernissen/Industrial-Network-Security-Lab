@@ -1,11 +1,13 @@
 
 import subprocess
+import sys
 from collections import Counter
 from pathlib import Path
 
-# Fichier de capture réseau
-capture = Path("traffic-analysis/modbus_capture.pcap")
-
+if len(sys.argv) > 1:
+    capture = Path(sys.argv[1])
+else:
+    capture = Path("traffic-analysis/modbus_capture.pcap")
 # Vérifier que le fichier existe
 if not capture.exists():
     print("ERREUR : fichier de capture introuvable.")

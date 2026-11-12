@@ -68,7 +68,10 @@ python traffic-analysis/analyze_modbus.py traffic-analysis/modbus_live_capture.p
 
 The repository also includes a sample capture: `traffic-analysis/modbus_live_capture.pcap`.
 
+
 ### 5. Run the Detection Scripts
+
+Run the detection scripts using the default sample PCAP file:
 
 ```bash
 python detection/detect_unauthorized_ip.py
@@ -77,7 +80,17 @@ python detection/detect_modbus_flood.py
 python traffic-analysis/analyze_modbus.py
 ```
 
-The detection scripts analyze the original sample PCAP file by default. The general traffic analysis script also supports specifying a different PCAP file as a command-line argument.
+All three detection scripts and the general traffic analysis script support specifying a different PCAP file as a command-line argument.
+
+To analyze the live traffic capture:
+
+```bash
+python detection/detect_unauthorized_ip.py traffic-analysis/modbus_live_capture.pcap
+python detection/detect_unusual_modbus_functions.py traffic-analysis/modbus_live_capture.pcap
+python detection/detect_modbus_flood.py traffic-analysis/modbus_live_capture.pcap
+python traffic-analysis/analyze_modbus.py traffic-analysis/modbus_live_capture.pcap
+```
+
 
 ### 6. Run Automated Tests
 

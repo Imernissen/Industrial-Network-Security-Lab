@@ -1,9 +1,13 @@
 
 import subprocess
+import sys
 from collections import defaultdict
 from pathlib import Path
 
-capture = Path("traffic-analysis/modbus_capture.pcap")
+if len(sys.argv) > 1:
+    capture = Path(sys.argv[1])
+else:
+    capture = Path("traffic-analysis/modbus_capture.pcap")
 
 if not capture.exists():
     print("ERREUR : fichier de capture introuvable.")
